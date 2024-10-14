@@ -10,95 +10,58 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Thread)
-public class Serialize {
+public class Serialize extends Base {
 
-    private JsonBenchmarkContext jacksonContext;
-    private JsonBenchmarkContext gsonContext;
-    private JsonBenchmarkContext jsonOrgContext;
-    private JsonBenchmarkContext moshiContext;
-    private JsonBenchmarkContext jsonBContext;
-    private JsonBenchmarkContext fastJsonContext;
-    private JsonBenchmarkContext jsonIterContext;
-    private  Order order;
+    Object object;
 
     @Setup
-    public void setUp() throws IOException {
-        Name name = new Name("John", "Doe");
-        Address address = new Address("123 Main St", "Springfield", "IL", "62701", "USA");
-        Contact contact = new Contact("john@gmail.com", "217-555-1234");
-        Customer customer = new Customer(1, name, contact, address);
-
-        Specifications specs = new Specifications();
-        specs.setProcessor("Intel Core i7");
-        specs.setRam("16GB");
-        specs.setStorage("512GB SSD");
-
-        Item item1 = new Item();
-        item1.setProductId(1);
-        item1.setName("Laptop");
-        item1.setQuantity(1);
-        item1.setPrice(1500);
-        item1.setDetails(new Details("TechBrand", specs));
-
-        order = new Order(1, "2024-10-12", customer);
-        order.addItem(item1);
-        order.calculateTotalAmount();
-        order.setStatus("Processing");
-
-        // Initialize benchmark contexts for different strategies
-        jacksonContext = new JsonBenchmarkContext(new JacksonStrategy());
-        gsonContext = new JsonBenchmarkContext(new GsonStrategy());
-        jsonOrgContext = new JsonBenchmarkContext(new JsonOrgStrategy());
-        moshiContext = new JsonBenchmarkContext(new MoshiStrategy());
-        jsonBContext = new JsonBenchmarkContext(new JsonBStrategy());
-        fastJsonContext = new JsonBenchmarkContext(new FastJsonStrategy());
-        jsonIterContext = new JsonBenchmarkContext(new JsonIterStrategy());
+    public void setUp(Object object) throws IOException {
+        this.object = object;
     }
-
 
     @Benchmark
     public void benchmarkJacksonSerialization() throws IOException {
-        jacksonContext.serialize(order);
+        getJacksonContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkGsonSerialization() throws IOException {
-        gsonContext.serialize(order);
+      getGsonContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkJsonOrgSerialization() throws IOException {
-        jsonOrgContext.serialize(order);
+        getJsonOrgContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkMoshiSerialization() throws IOException {
-        moshiContext.serialize(order);
+     getMoshiContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkJsonBSerialization() throws IOException {
-        jsonBContext.serialize(order);
+        getJsonBContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkFastJsonSerialization() throws IOException {
-        fastJsonContext.serialize(order);
+        getFastJsonContext().serialize(object);
     }
 
     @Benchmark
     public void benchmarkJsonIterSerialization() throws IOException {
-        jsonIterContext.serialize(order);
+     getJsonIterContext().serialize(object);
     }
 
     public  static  void main(String[] args) throws IOException, RunnerException {
-
         Options opt = new OptionsBuilder()
                 .include(Serialize.class.getSimpleName())
                 .forks(1)
@@ -108,7 +71,6 @@ public class Serialize {
                 .measurementTime(TimeValue.seconds(1))
                 .build();
         new Runner(opt).run();
-
     }
 
 }

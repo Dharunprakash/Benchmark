@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Thread)
-public class JsonArrayDeserialize {
+public class JsonArrayDeserialize  {
 
     private  String jsonArray = Data.ORDERS_JSON;
 
@@ -84,8 +84,6 @@ public class JsonArrayDeserialize {
     public void jsonIterBenchmark() throws IOException {
         jsonIterContext.deserialize(jsonArray, Order[].class);
     }
-
-
 
 
 
