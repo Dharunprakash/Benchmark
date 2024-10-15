@@ -2,6 +2,7 @@ package com.demobench.test.deserializer;
 
 
 import com.demobench.Data;
+import com.demobench.jsondata.OrderData;
 import com.demobench.test.JsonDeserialize;
 import com.demobench.model.Order;
 import org.openjdk.jmh.runner.Runner;
@@ -14,7 +15,7 @@ public class OrderArrayDeserializer extends JsonDeserialize<Order[]> {
 
     @Override
     public void setUp() {
-        setJson(Data.ORDERS_JSON);
+        setJson(OrderData.jsonArray);
         setClazz(Order[].class);
         super.setUp();
     }

@@ -1,27 +1,28 @@
-package com.demobench.test.deserializer;
-import com.demobench.Data;
-import com.demobench.jsondata.OrderData;
-import com.demobench.test.JsonDeserialize;
-import com.demobench.model.Order;
+package com.demobench.test.serializer;
+
+import com.demobench.data.CustomerData;
+import com.demobench.model.Customer;
+import com.demobench.test.Serialize;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-public class OrderDeserializer extends JsonDeserialize<Order> {
+import javax.imageio.IIOException;
+import java.io.IOException;
+
+public class CustomerArraySerializer extends Serialize<Customer[]> {
 
     @Override
-    public void setUp() {
-        setJson(OrderData.json);
-        setClazz(Order.class);
-        super.setUp();
+    public void setUp() throws IOException {
+       super.setUp();
+         setObject(CustomerData.createTestCustomers());
     }
-
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(OrderDeserializer.class.getName())
+                .include(CustomerArraySerializer.class.getSimpleName())
                 .forks(1)
                 .warmupIterations(1)
                 .warmupTime(TimeValue.seconds(1))
