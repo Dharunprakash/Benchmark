@@ -87,13 +87,13 @@ public class OrderData {
         return order;
     }
 
-    public static Order[] createTestOrders(int count) {
+    public static Order[] createTestOrders() {
         ArrayList<Order> orders = new ArrayList<>();
         orders.add(createTestOrder1());
         orders.add(createTestOrder2());
         orders.add(createTestOrder3());
 
-        return orders.toArray(new Order[0]);
+        return  orders.toArray(new Order[0]);
 
 
     }
