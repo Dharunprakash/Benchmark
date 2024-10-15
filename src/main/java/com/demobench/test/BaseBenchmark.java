@@ -1,4 +1,4 @@
-package com.demobench.Test;
+package com.demobench.test;
 
 
 import com.demobench.benchmark.*;
